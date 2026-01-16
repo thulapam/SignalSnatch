@@ -37,13 +37,68 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 50;
+            background: linear-gradient(to bottom, rgba(3, 7, 18, 0.8), transparent);
+        }
+        
+        /* Enable snapping on the root level */
+        html {
+            scroll-snap-type: y mandatory;
+            scroll-behavior: smooth;
+        }
+
+        section {
+            height: 100vh;           /* Force each section to be full screen */
+            scroll-snap-align: start; /* Lock the top of the section to the top of the screen */
+            scroll-snap-stop: always; /* Prevent skipping sections when scrolling fast */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        /* Side Navigation Indicator */
+        .side-nav {
+            position: fixed;
+            right: 2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            z-index: 100;
+        }
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+        }
+        .dot.active {
+            background: #6366f1;
+            transform: scale(1.4);
+            box-shadow: 0 0 15px rgba(99, 102, 241, 0.6);
+            border-color: white;
+        }
+
         input::placeholder { color: #475569; }
     </style>
 </head>
 <body>
+    <div class="side-nav">
+        <div class="dot active" onclick="window.scrollTo({top: 0, behavior: 'smooth'})"></div>
+        <div class="dot" onclick="document.getElementById('stats').scrollIntoView({behavior: 'smooth'})"></div>
+        <div class="dot" onclick="document.getElementById('contact').scrollIntoView({behavior: 'smooth'})"></div>
+    </div>
     <div id="vanta-bg"></div>
 
-    <nav class="p-6 flex justify-between items-center max-w-7xl mx-auto">
+    <nav class="p-6 flex justify-between items-center max-w-12xl mx-auto">
         <div class="flex items-center gap-2">
             <div class="w-8 h-8 bg-indigo-600 rounded-lg rotate-45"></div>
             <span class="text-xl font-bold tracking-tight">Signal Snatch <span class="text-indigo-500">AI</span></span>
@@ -55,10 +110,7 @@
     </nav>
 
     <section class="min-h-screen flex flex-col items-center justify-center text-center px-4">
-        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full ai-border text-xs mb-8">
-            <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
-            NSE Market Live Execution Active
-        </div>
+      
         <h1 class="text-6xl md:text-8xl font-bold tracking-tight mb-8">
             Synthesizing <span class="glow-text text-indigo-400">Intelligence</span> <br> 
             into Profit.
@@ -69,7 +121,7 @@
         </p>
         <div class="flex gap-4">
             <a href="#contact" class="px-8 py-4 bg-white text-black font-bold rounded-xl hover:bg-indigo-50 transition">Join the Network</a>
-            <div class="px-8 py-4 ai-border rounded-xl font-bold">₹18.5 Cr ARR Proof</div>
+            <a href="./pitch.html" class="px-8 py-4 ai-border rounded-xl font-bold">Pitch</a>
         </div>
     </section>
 
@@ -162,6 +214,25 @@
             points: 12.00,
             maxDistance: 24.00,
             spacing: 16.00
+        });
+        window.addEventListener('scroll', () => {
+            const sections = document.querySelectorAll('section');
+            const dots = document.querySelectorAll('.dot');
+            
+            let current = 0;
+            sections.forEach((section, index) => {
+                const sectionTop = section.offsetTop;
+                if (pageYOffset >= sectionTop - 100) {
+                    current = index;
+                }
+            });
+
+            dots.forEach((dot, index) => {
+                dot.classList.remove('active');
+                if (index === current) {
+                    dot.classList.add('active');
+                }
+            });
         });
     </script>
 </body>
