@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signal Snatch - Predictive Algo-Trading Signal Marketplace</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; overflow-x: hidden; }
+        
+        .slide {
+            width: 960px;
+            height: 540px;
+            margin: 0 auto 20px;
+            display: flex;
+            flex-direction: column;
+            padding: 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Dark Theme */
+        body.theme-dark {
+            --bg-base: #0f172a;
+            --bg-elevated: #020617;
+            --bg-surface: #1e293b;
+            --text-primary: #f1f5f9;
+            --text-secondary: #cbd5e1;
+            --text-accent: #38bdf8;
+            --primary: #10b981;
+        }
+
+        .slide {
+            background-color: var(--bg-base);
+            color: var(--text-primary);
+        }
+
+        /* Typography */
+        h1 { font-size: 3rem; font-weight: 700; margin-bottom: 1rem; color: var(--primary); }
+        h2 { font-size: 2.25rem; font-weight: 700; margin-bottom: 1.5rem; color: var(--text-accent); }
+        h3 { font-size: 1.75rem; font-weight: 600; margin-bottom: 1rem; color: var(--primary); }
+        p { font-size: 1.125rem; color: var(--text-secondary); margin-bottom: 1rem; line-height: 1.6; }
+        
+        .subtitle { font-size: 1.5rem; color: var(--text-secondary); }
+        
+        /* Layouts */
+        .center { display: flex; justify-content: center; align-items: center; flex-direction: column; text-align: center; }
+        .row { display: flex; flex-direction: row; gap: 2rem; }
+        .col { display: flex; flex-direction: column; gap: 1.5rem; }
+        .fill-height { flex: 1; }
+        .items-center { align-items: center; }
+
+        /* Lists */
+        ul { list-style: none; margin-left: 0; }
+        li { padding: 0.75rem 0; padding-left: 2rem; position: relative; font-size: 1.1rem; color: var(--text-secondary); }
+        li::before { content: '→'; position: absolute; left: 0; color: var(--primary); font-weight: bold; }
+
+        /* Cards */
+        .card { background-color: var(--bg-surface); padding: 2rem; border-radius: 8px; box-shadow: 0 8px 16px rgba(0,0,0,0.2); }
+        .card h4 { font-size: 1.5rem; color: var(--primary); margin-bottom: 1rem; }
+        .card p { font-size: 1rem; color: var(--text-secondary); }
+
+        /* Metrics */
+        .metric { text-align: center; }
+        .metric h4 { font-size: 2.5rem; color: var(--primary); margin-bottom: 0.5rem; }
+        .metric p { font-size: 1rem; color: var(--text-secondary); }
+
+        /* Pricing */
+        .pricing-card { background-color: var(--bg-surface); padding: 2rem; border-radius: 8px; text-align: center; border: 2px solid var(--primary); }
+        .price { font-size: 2.5rem; color: var(--primary); font-weight: 700; margin: 1rem 0; }
+
+        /* Hero Title Slide */
+        #slide1 { background: linear-gradient(135deg, #020617 0%, #10b981 100%); }
+        #slide1 h1 { font-size: 3.5rem; color: #f1f5f9; }
+        #slide1 p { font-size: 1.4rem; color: #e0f2fe; }
+
+        /* Section Headers */
+        .section-header { background-color: var(--primary); color: #0f172a; }
+        .section-header h2 { color: #0f172a; }
+
+        /* Animations */
+        .fade-in { opacity: 0; animation: fadeIn 0.8s ease-in forwards; }
+        @keyframes fadeIn { to { opacity: 1; } }
+
+        @media (max-width: 768px) {
+            .slide { padding: 2rem; width: 100%; }
+            h1 { font-size: 2rem; }
+            h2 { font-size: 1.5rem; }
+            .row { flex-direction: column; }
+        }
+    </style>
+</head>
+<body class="theme-dark">
+
+    <!-- Slide 1: Title -->
+    <section class="slide center" id="slide1">
+        <h1>Signal Snatch</h1>
+        <p class="subtitle">Predictive Algo-Trading Signal Marketplace</p>
+        <p style="font-size: 1.2rem; margin-top: 2rem;">Crowdsourcing Trading Intelligence for Indian Retail Investors</p>
+    </section>
+
+    <!-- Slide 2: The Opportunity -->
+    <section class="slide section-header">
+        <h2 style="color: #0f172a;">The Opportunity</h2>
+        <div class="row" style="flex: 1; align-items: center;">
+            <div class="fill-height col">
+                <h3 style="color: #0f172a; font-size: 2rem;">Market Size: ₹1.2 Trillion</h3>
+                <ul style="margin-top: 1rem;">
+                    <li style="color: #0f172a;">18.75% of NSE market cap now held by retail (22-yr high)</li>
+                    <li style="color: #0f172a;">₹83.6 trillion retail participation (29.8% CAGR)</li>
+                    <li style="color: #0f172a;">50% YoY growth in retail trading apps</li>
+                    <li style="color: #0f172a;">Global algo trading market: $16.95B → $33.09B by 2032</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 3: The Problem -->
+    <section class="slide">
+        <h2>The Problem: Retail Traders Left Behind</h2>
+        <div class="row" style="flex: 1; gap: 3rem;">
+            <div class="card" style="flex: 1;">
+                <h4>❌ Information Asymmetry</h4>
+                <p>FIIs & HNI algos have institutional signals; retail guesses on tips and news.</p>
+            </div>
+            <div class="card" style="flex: 1;">
+                <h4>❌ Technical Barrier</h4>
+                <p>80% of retail traders can't code—can't build or backtest models themselves.</p>
+            </div>
+            <div class="card" style="flex: 1;">
+                <h4>❌ Scattered Signals</h4>
+                <p>Signals fragmented across Discord, Telegram, YouTube—no verification or risk management.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 4: Bleeding Edge Challenge -->
+    <section class="slide">
+        <h2>The Core Issue: 70% Retail Traders Lose Money</h2>
+        <div class="col" style="flex: 1; justify-content: center;">
+            <p style="font-size: 1.3rem; color: var(--primary); font-weight: bold;">Why?</p>
+            <ul>
+                <li>No algorithmic discipline—emotional trading rules</li>
+                <li>Lack of backtested, audited trading models</li>
+                <li>No aggregated crowd intelligence—trading solo</li>
+                <li>Zero accountability or track record verification</li>
+            </ul>
+            <p style="margin-top: 2rem; font-style: italic;">Meanwhile: Institutional algos capture 60% of intraday volume with zero friction.</p>
+        </div>
+    </section>
+
+    <!-- Slide 5: TradeSignal Solution -->
+    <section class="slide section-header">
+        <h2 style="color: #0f172a; font-size: 2.5rem;">TradeSignal: Democratizing Algo Trading</h2>
+        <div class="col" style="flex: 1; justify-content: center;">
+            <p style="color: #0f172a; font-size: 1.2rem; font-weight: 600;">A P2P marketplace where traders share ML models, signals get backtested & verified, and users subscribe to proven strategies.</p>
+        </div>
+    </section>
+
+    <!-- Slide 6: How It Works -->
+    <section class="slide">
+        <h2>How TradeSignal Works (Unified Stack)</h2>
+        <div class="col" style="flex: 1; gap: 1.5rem;">
+            <div class="row">
+                <div class="card" style="flex: 1;">
+                    <h4>1. Signal Creators Upload</h4>
+                    <p>Quants/traders code models in Python, upload via API, specify asset class (equities/F&O).</p>
+                </div>
+                <div class="card" style="flex: 1;">
+                    <h4>2. Automated Backtesting</h4>
+                    <p>Cloud-based engine backtests on 10yr NSE data, generates Sharpe/drawdown/win-rate metrics.</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="card" style="flex: 1;">
+                    <h4>3. Live Paper Trading</h4>
+                    <p>60-day verification period: real-time sim trades vs actual market (zero capital risk).</p>
+                </div>
+                <div class="card" style="flex: 1;">
+                    <h4>4. Marketplace Distribution</h4>
+                    <p>Verified signals listed; subscribers get real-time alerts via API/webhook/mobile.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 7: Network Effect Magic -->
+    <section class="slide">
+        <h2>The Flywheel: Network Effects</h2>
+        <div class="col" style="flex: 1; justify-content: center; gap: 2rem;">
+            <div class="card" style="background-color: rgba(16,185,129,0.1); border-left: 4px solid var(--primary);">
+                <p style="font-size: 1.2rem;"><strong>More Signals → Better Ensemble Accuracy</strong></p>
+                <p>Aggregate 1000 models into meta-strategy; ensemble beats individual (30% alpha improvement).</p>
+            </div>
+            <div class="card" style="background-color: rgba(16,185,129,0.1); border-left: 4px solid var(--primary);">
+                <p style="font-size: 1.2rem;"><strong>More Subscribers → Higher Payouts to Creators</strong></p>
+                <p>Top 5% of creators earn ₹5-50L/year; incentivizes best quants to join.</p>
+            </div>
+            <div class="card" style="background-color: rgba(16,185,129,0.1); border-left: 4px solid var(--primary);">
+                <p style="font-size: 1.2rem;"><strong>More Data → Better Model Validation</strong></p>
+                <p>With 100k+ traders, real-time live performance data tunes algo parameters daily.</p>
+            </div>
+        </div>
+    </section>
+
+    
+    <!-- Slide 9: Business Model -->
+    <section class="slide section-header">
+        <h2 style="color: #0f172a;">Three Revenue Streams (All Proven)</h2>
+        <div class="row" style="flex: 1; gap: 2rem;">
+            <div class="card" style="background-color: #0f172a; flex: 1;">
+                <h4 style="color: var(--primary);">1. Subscription Revenue</h4>
+                <p style="color: var(--text-secondary); font-weight: bold; font-size: 1.4rem;">₹299-999/month</p>
+                <p>Traders pay per signal; 70/30 split with creators (30% platform cut).</p>
+            </div>
+            <div class="card" style="background-color: #0f172a; flex: 1;">
+                <h4 style="color: var(--primary);">2. Premium Backtest Engine</h4>
+                <p style="color: var(--text-secondary); font-weight: bold; font-size: 1.4rem;">₹999-4,999/month</p>
+                <p>Institutional quants rent compute for 100k+ backtests, custom indicators, API access.</p>
+            </div>
+            <div class="card" style="background-color: #0f172a; flex: 1;">
+                <h4 style="color: var(--primary);">3. Data Monetization</h4>
+                <p style="color: var(--text-secondary); font-weight: bold; font-size: 1.4rem;">₹2 Cr/quarter</p>
+                <p>Sell anonymized signal correlations, sector rotation data to hedge funds & brokers (RBI-compliant).</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 10: Pricing Tiers -->
+    <section class="slide">
+        <h2>Subscription Pricing (Traders)</h2>
+        <div class="row" style="flex: 1; gap: 2rem; justify-content: center;">
+            <div class="pricing-card" style="flex: 1; border-color: #94a3b8;">
+                <h4 style="color: #cbd5e1;">Starter</h4>
+                <div class="price">₹299/mo</div>
+                <ul style="text-align: left; margin-top: 1rem;">
+                    <li style="color: #cbd5e1;">3 Signals</li>
+                    <li style="color: #cbd5e1;">Email alerts</li>
+                    <li style="color: #cbd5e1;">Basic performance</li>
+                </ul>
+            </div>
+            <div class="pricing-card" style="flex: 1; border-color: var(--primary); background-color: rgba(16,185,129,0.1);">
+                <h4>Pro</h4>
+                <div class="price">₹749/mo</div>
+                <ul style="text-align: left; margin-top: 1rem;">
+                    <li style="color: var(--text-secondary);">Unlimited signals</li>
+                    <li style="color: var(--text-secondary);">Real-time API alerts</li>
+                    <li style="color: var(--text-secondary);">Custom alerts</li>
+                </ul>
+            </div>
+            <div class="pricing-card" style="flex: 1; border-color: #94a3b8;">
+                <h4 style="color: #cbd5e1;">Enterprise</h4>
+                <div class="price">₹2,499/mo</div>
+                <ul style="text-align: left; margin-top: 1rem;">
+                    <li style="color: #cbd5e1;">White-label signals</li>
+                    <li style="color: #cbd5e1;">Dedicated broker int.</li>
+                    <li style="color: #cbd5e1;">Priority support</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 11: Creator Economics -->
+    <section class="slide">
+        <h2>Creator Economics (Why Top Quants Join)</h2>
+        <div class="col" style="flex: 1; justify-content: center; gap: 2rem;">
+            <div class="card">
+                <p style="font-size: 1.2rem;"><strong>Example: A 58% win-rate signal with 200 subscribers</strong></p>
+                <ul style="margin-top: 1rem;">
+                    <li>Monthly subscriber revenue: ₹200 × ₹500 avg = ₹1 Lakh</li>
+                    <li>Creator payout (70%): ₹70,000/month = ₹8.4 Lakh/year</li>
+                    <li>Top 5% creators (1000+ subscribers): ₹50L-₹2Cr/year passive income</li>
+                </ul>
+            </div>
+            <p style="text-align: center; font-size: 1.1rem; color: var(--primary);">This beats most quant jobs—with zero office, 24x7 earning, and zero risk capital.</p>
+        </div>
+    </section>
+
+    <!-- Slide 12: Competitive Moat -->
+    <section class="slide section-header">
+        <h2 style="color: #0f172a;">Why TradeSignal Wins</h2>
+        <div class="row" style="flex: 1; gap: 2rem;">
+            <div class="card" style="background-color: #0f172a; flex: 1;">
+                <h4 style="color: var(--primary);">🔒 Data Moat</h4>
+                <p>340 verified signals = 10yr of real performance data. Competitors start at zero.</p>
+            </div>
+            <div class="card" style="background-color: #0f172a; flex: 1;">
+                <h4 style="color: var(--primary);">🌐 Network Effects</h4>
+                <p>Each new trader improves ensemble accuracy; each creator attracts more traders.</p>
+            </div>
+            <div class="card" style="background-color: #0f172a; flex: 1;">
+                <h4 style="color: var(--primary);">⚡ Verification Standard</h4>
+                <p>60-day paper trading kills fake signals. No other platform enforces this rigorously.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 13: Competitive Landscape -->
+    <section class="slide">
+        <h2>Competitive Landscape</h2>
+        <div class="col" style="flex: 1; justify-content: center;">
+            <table style="width: 100%; color: var(--text-secondary); font-size: 1rem; border-collapse: collapse;">
+                <tr style="border-bottom: 2px solid var(--primary);">
+                    <th style="text-align: left; padding: 1rem; color: var(--primary);">Player</th>
+                    <th style="text-align: left; padding: 1rem; color: var(--primary);">Model</th>
+                    <th style="text-align: left; padding: 1rem; color: var(--primary);">Gap vs TradeSignal</th>
+                </tr>
+                <tr style="border-bottom: 1px solid var(--bg-surface);">
+                    <td style="padding: 1rem;">TradingView</td>
+                    <td style="padding: 1rem;">Charts + community scripts</td>
+                    <td style="padding: 1rem;">No verification, no payouts to creators</td>
+                </tr>
+                <tr style="border-bottom: 1px solid var(--bg-surface);">
+                    <td style="padding: 1rem;">Zerodha Streak</td>
+                    <td style="padding: 1rem;">DIY algo builder</td>
+                    <td style="padding: 1rem;">Requires coding; no marketplace</td>
+                </tr>
+                <tr style="border-bottom: 1px solid var(--bg-surface);">
+                    <td style="padding: 1rem;">Finvasia Jtrack</td>
+                    <td style="padding: 1rem;">Algo execution terminal</td>
+                    <td style="padding: 1rem;">Enterprise only; no crowd signals</td>
+                </tr>
+                <tr>
+                    <td style="padding: 1rem;">TradeSignal</td>
+                    <td style="padding: 1rem;">Verified P2P signal marketplace</td>
+                    <td style="padding: 1rem;">✅ Only verified, only monetized, only ensemble</td>
+                </tr>
+            </table>
+        </div>
+    </section>
+
+    <!-- Slide 14: Growth Strategy -->
+    <section class="slide section-header">
+        <h2 style="color: #0f172a;">Growth Plan: 2026-2028</h2>
+        <div class="col" style="flex: 1; gap: 1.5rem;">
+            <div class="row">
+                <div class="card" style="background-color: #0f172a; flex: 1;">
+                    <h4 style="color: var(--primary);">2026: Consolidate India</h4>
+                    <p>10k traders, 1000+ signals via creator partnerships.</p>
+                </div>
+                <div class="card" style="background-color: #0f172a; flex: 1;">
+                    <h4 style="color: var(--primary);">2027: Expand to F&O</h4>
+                    <p>Options/futures signals; partnerships with Shoonya/NEST brokers for 1-click execution.</p>
+                </div>
+            </div>
+            <div class="card" style="background-color: #0f172a;">
+                <h4 style="color: var(--primary);">2028: Southeast Asia + Middle East</h4>
+                <p>Singapore, Dubai, Malaysia; localized signals for ASEAN exchanges.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 15: Funding & Use -->
+    <section class="slide">
+        <h2>Seed Funding: ₹50 Lakhs | Use of Funds</h2>
+        <div class="row" style="flex: 1; gap: 3rem;">
+            <div class="card" style="flex: 1;">
+                <h4>Technology (40%)</h4>
+                <p><strong>₹10 Lakhs</strong> → Low-latency websockets, market data feeds (NSE direct), ML infrastructure for 10x backtests.</p>
+            </div>
+            <div class="card" style="flex: 1;">
+                <h4>Go-to-Market (35%)</h4>
+                <p><strong>₹28 Lakhs</strong> → Creator acquisition (₹500/signal onboarding), influencer partnerships, paid growth.</p>
+            </div>
+            <div class="card" style="flex: 1;">
+                <h4>Team & Ops (25%)</h4>
+                <p><strong>₹12 Lakhs Cr</strong> → 20x team (quants, engineers, risk/compliance). Regulatory approvals.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 16: Why Now? -->
+    <section class="slide section-header">
+        <h2 style="color: #0f172a;">Why Now?</h2>
+        <div class="col" style="flex: 1; justify-content: center; gap: 1.5rem;">
+            <div class="card" style="background-color: #0f172a;">
+                <p style="font-size: 1.1rem; color: var(--primary);"><strong>📈 Retail Trading Boom</strong><br/>
+                <span style="color: var(--text-secondary);">18.75% of NSE now retail; 29.8% CAGR. Unprecedented wave.</span></p>
+            </div>
+            <div class="card" style="background-color: #0f172a;">
+                <p style="font-size: 1.1rem; color: var(--primary);"><strong>🤖 AI Normalization</strong><br/>
+                <span style="color: var(--text-secondary);">LLMs/ML now standard; backtesting cheap; traders ready to trust algos.</span></p>
+            </div>
+            <div class="card" style="background-color: #0f172a;">
+                <p style="font-size: 1.1rem; color: var(--primary);"><strong>💬 Creator Economy Peak</strong><br/>
+                <span style="color: var(--text-secondary);">Traders want passive income; platform monetization proven on YouTube/TikTok.</span></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 17: Ask & Vision -->
+    <section class="slide center" style="background: linear-gradient(135deg, #10b981 0%, #065f46 100%);">
+        <h1 style="color: #f1f5f9;">The Ask: ₹50 Lakhs Seed Funding</h1>
+        <p style="font-size: 1.3rem; color: #d1fae5; margin-top: 2rem;">We're building the operating system for India's 100M+ retail traders. This is our moment.</p>
+        <p style="font-size: 1.2rem; color: #a7f3d0; margin-top: 2rem;"><strong>Vision 2030:</strong> 10M traders. The Nasdaq of emerging markets.</p>
+    </section>
+
+    <!-- Slide 18: Thank You -->
+    <section class="slide center" id="slide18" style="background: linear-gradient(135deg, #020617 0%, #10b981 100%);">
+        <h1 style="color: #f1f5f9; font-size: 4rem;">Questions?</h1>
+        <p style="font-size: 1.4rem; color: #d1fae5; margin-top: 2rem;">Let's talk about the future of algo trading in India.</p>
+        <div style="margin-top: 3rem; display: flex; flex-direction: column; gap: 1rem; align-items: center;">
+            <p style="font-size: 1.1rem; color: #a7f3d0;"><strong>hello@signalsnatch.in</strong></p>
+            <p style="font-size: 1.1rem; color: #a7f3d0;"><strong>www.signalsnatch.in</strong></p>
+        </div>
+    </section>
+
+    <script>
+        gsap.registerPlugin(ScrollTrigger);
+        
+        // Fade in slides on view
+        gsap.utils.toArray('.slide').forEach((slide, i) => {
+            gsap.from(slide, {
+                scrollTrigger: { trigger: slide, start: 'top 80%' },
+                opacity: 0,
+                y: 30,
+                duration: 0.8
+            });
+        });
+    </script>
+</body>
+</html>
+
